@@ -7,6 +7,7 @@ public class Bai1 {
         int n=getN();
         Bai1 bt1=new Bai1();
         bt1.bai1(n);
+        bt1.HelloWorld();
     }
 
     public void bai1(int n) {
@@ -25,5 +26,9 @@ public class Bai1 {
             n = sc.nextInt();
         } while (n <= 0);
         return n;
+    }
+
+    public void HelloWorld() {
+        System.out.println("Hello World");
     }
 }
