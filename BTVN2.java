@@ -1,33 +1,19 @@
-package Buoi4;
-
-import java.util.Scanner;
+package Buoi6.tknganhang;
 
 public class BTVN2 {
-    static Scanner sc = new Scanner(System.in);
     public static void main(String[] args) {
-        System.out.println(" Nhập chuỗi cần kiểm tra ");
-        String sdt = sc.nextLine();
+        // Tạo đối tượng Account
+        Account account = new Account(1122, 20000, 4.5);
 
-        if(kiemTra(sdt))
-            System.out.println(" Đây là số điện thoại");
-        else
-            System.out.println("Đây không phải số điện thoại");
-    }
+        // Rút 2,500 USD
+        account.withdraw(2500);
 
-    public static boolean kiemTra(String sdt){
-        // loại bỏ các kí tự đc phép dùng trong sdt như - hay .
-        String newsdt = sdt.replaceAll("[- .]","");
-        System.out.println(newsdt);
-        // kiểm tra độ dài hợp lệ
-        if (newsdt.length()==9){
-            return true;
-        } else if (newsdt.length()==10 && newsdt.startsWith("0")){
-            return true;
-        } else if (newsdt.length()==11 && newsdt.startsWith("84")){
-            return true;
-        } else if (newsdt.length()==12 && newsdt.startsWith("+84")){
-            return true;
-        }
-        return false;
+        // Gửi 3,000 USD
+        account.deposit(3000);
+
+        // In ra thông tin tài khoản
+        System.out.println("Số dư hiện tại: $" + account.getBalance());
+        System.out.println("Tiền lãi hàng tháng: $" + account.getMonthlyInterest());
+        System.out.println("Ngày tài khoản được tạo: " + account.getDateCreated());
     }
 }

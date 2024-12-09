@@ -1,178 +1,81 @@
-package Buoi4;
+package Buoi6.tknganhang;
 
 import java.util.Scanner;
 
 public class BTVN3 {
-    static Scanner sc = new Scanner(System.in);
-
     public static void main(String[] args) {
-        System.out.println(" Nhập số phần tử của mảng ");
-        int n = sc.nextInt();
-        int arr[] = new int[n];
-        for (int i = 0; i < n; i++) {
-            System.out.print(" Nhập giá trị tại vị trí " + i + " : ");
-            arr[i] = sc.nextInt();
+        // 1. Tạo mảng 10 tài khoản với ID từ 0 đến 9 và số dư ban đầu $100
+        Account[] accounts = new Account[10];
+        for (int i = 0; i < 10; i++) {
+            accounts[i] = new Account(i, 100, 0); // Số dư ban đầu là $100
         }
-        hienThi(arr);
-        System.out.println();
-        sumChanLe(arr);
-        System.out.println();
-        soNguyenTo(arr);
-        System.out.println();
-        sxChanLe(arr);
-        System.out.println();
-        chiaMang(arr);
-        System.out.println();
-        getDuyet(arr);
-        System.out.println();
-        getChen(arr);
-        System.out.println();
-        getXoaPT(arr);
-    }
 
-    public static void hienThi(int[] arr) {
-        System.out.print("Mảng : ");
-        for (int i = 0; i < arr.length; i++) {
-            System.out.print(arr[i] + " ");
-        }
-    }
+        Scanner scanner = new Scanner(System.in);
 
-    public static void sumChanLe(int[] arr) {
-        int sumChan = 0;
-        int sumLe = 0;
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i] % 2 == 0) {
-                sumChan += arr[i];
+        while (true) {
+            // 2. Yêu cầu người dùng nhập ID tài khoản
+            int id;
+            while (true) {
+                System.out.print("Nhập ID tài khoản (0-9): ");
+                id = scanner.nextInt();
+                if (id >= 0 && id < 10) {
+                    break;
+                }
+                System.out.println("ID không hợp lệ. Vui lòng nhập lại!");
             }
-            if (arr[i] % 2 != 0) {
-                sumLe += arr[i];
-            }
-        }
-        System.out.println(" Tổng các số chẵn trong mảng là " + sumChan);
-        System.out.println(" Tổng các số lẻ trong mảng là " + sumLe);
-    }
 
-    public static void soNguyenTo(int[] arr) {
-        int cout = 0;
-        for (int m : arr) {
-            cout = 0;
-            for (int i = 1; i <= m; i++) {
-                if (m % i == 0) {
-                    cout++;
+            // 3. Hiển thị menu chính cho tài khoản hợp lệ
+            Account currentAccount = accounts[id];
+            while (true) {
+                System.out.println("\n===== MENU CHÍNH =====");
+                System.out.println("1: Xem số dư");
+                System.out.println("2: Rút tiền");
+                System.out.println("3: Gửi tiền");
+                System.out.println("4: Thoát");
+                System.out.print("Lựa chọn của bạn: ");
+
+                int choice = scanner.nextInt();
+                switch (choice) {
+                    case 1: // Xem số dư
+                        System.out.println("Số dư hiện tại: $" + currentAccount.getBalance());
+                        break;
+
+                    case 2: // Rút tiền
+                        System.out.print("Nhập số tiền cần rút: ");
+                        double withdrawAmount = scanner.nextDouble();
+                        if (withdrawAmount <= 0) {
+                            System.out.println("Số tiền cần rút phải lớn hơn 0.");
+                        } else if (withdrawAmount > currentAccount.getBalance()) {
+                            System.out.println("Rút tiền thất bại: Số dư không đủ.");
+                        } else {
+                            currentAccount.withdraw(withdrawAmount);
+                            System.out.println("Rút tiền thành công. Số dư mới: $" + currentAccount.getBalance());
+                        }
+                        break;
+
+                    case 3: // Gửi tiền
+                        System.out.print("Nhập số tiền cần gửi: ");
+                        double depositAmount = scanner.nextDouble();
+                        if (depositAmount <= 0) {
+                            System.out.println("Số tiền cần gửi phải lớn hơn 0.");
+                        } else {
+                            currentAccount.deposit(depositAmount);
+                            System.out.println("Gửi tiền thành công. Số dư mới: $" + currentAccount.getBalance());
+                        }
+                        break;
+
+                    case 4: // Thoát
+                        System.out.println("Đăng xuất tài khoản " + id + ". Quay lại màn hình chính.");
+                        break;
+
+                    default: // Lựa chọn không hợp lệ
+                        System.out.println("Lựa chọn không hợp lệ. Vui lòng nhập lại.");
                 }
 
-            }
-            if (cout == 2)
-                System.out.println(m + " là số nguyên tố ");
-            else
-                System.out.println(m + " không là số nguyên tố ");
-
-        }
-    }
-
-    public static void sxChanLe(int[] arr) {
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = i + 1; j < arr.length; j++) {
-                if (arr[i] % 2 == 0) {
-                    if (arr[i] < arr[j]) {
-                        int temp = arr[i];
-                        arr[i] = arr[j];
-                        arr[j] = temp;
-                    }
-                } else {
-                    if (arr[i] > arr[j]) {
-                        int temp = arr[i];
-                        arr[i] = arr[j];
-                        arr[j] = temp;
-                    }
+                if (choice == 4) { // Thoát khỏi vòng lặp menu
+                    break;
                 }
             }
         }
-        hienThi(arr);
-    }
-
-    public static void chiaMang(int[] arr) {
-        String mangTam1 = "";
-        String mangTam2 = "";
-        int sum = 0;
-        double tbc;
-        for (int i = 0; i < arr.length; i++) {
-            sum += arr[i];
-        }
-        tbc = (double) sum / arr.length;
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i] <= tbc)
-                mangTam1 += arr[i] + " ";
-            else
-                mangTam2 += arr[i] + " ";
-        }
-        System.out.println(mangTam1);
-        System.out.println(mangTam2);
-    }
-
-    public static void getDuyet(int[] arr) {
-        boolean[] kiemTra = new boolean[arr.length];
-        for (int i = 0; i < arr.length; i++) {
-            if (!kiemTra[i]) {
-                int cout = 1;
-                for (int j = i + 1; j < arr.length; j++) {
-                    if (arr[i] == arr[j]) {
-                        cout++;
-                        kiemTra[j] = true;
-                    }
-                }
-                if (cout > 1)
-                    System.out.println(" Phần tử " + arr[i] + " được lặp lại " + cout + " lần ");
-            }
-        }
-    }
-
-    public static void getChen(int[] arr){
-        System.out.println(" Nhập x ");
-        int x = sc.nextInt();
-        int l=0;
-        int[] brr = new int[arr.length+1];
-        for (int i = 0; i < arr.length; i++) {
-            if(arr[i] < x){
-                brr[i] = arr[i];
-                l=i+1;
-            }
-        }
-        brr[l]=x;
-        for(int i = l ; i<arr.length; i++){
-            brr[i+1]=arr[i];
-        }
-        System.out.println(" Mảng sau khi chèn " + x + " là :");
-        for (int i = 0; i < brr.length; i++) {
-            System.out.print(brr[i] + " ");
-        }
-        System.out.println();
-    }
-
-    public static void getXoaPT(int[] arr){
-        System.out.println(" Nhập phần tử cần xóa ");
-        int x = sc.nextInt();
-
-        int digit = -1;
-        for (int i = 0; i < arr.length; i++) {
-            if(arr[i]==x)
-                digit=i;
-        }
-        int[] newArr = new int[arr.length-1];
-
-        if (digit == -1){
-            System.out.println(" Phần tử cần xóa không nằm trong mảng ");
-            hienThi(arr);
-        } else {
-            for(int i=0;i<digit;i++){
-                newArr[i]=arr[i];
-            }
-            for(int i = digit+1;i<arr.length;i++){
-                newArr[i-1]=arr[i];
-                System.out.println(" Mảng sau khi xóa " + x + " là ");
-                hienThi(newArr);
-            }
-        }
-
     }
 }
