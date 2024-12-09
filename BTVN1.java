@@ -1,67 +1,104 @@
-package Buoi4;
+package Buoi6.animal;
 
 import java.util.Scanner;
 
 public class BTVN1 {
-    static Scanner sc = new Scanner(System.in);
-    static         StringBuilder sb = new StringBuilder();
-
     public static void main(String[] args) {
-        System.out.println(" Nhập vào chuỗi cần kiểm tra ");
-        // đọc dữ  liệu và gán vào biến 
-        String str = sc.nextLine();
-        demSoLanXuatHienCuaTu(str);
-        System.out.println("Chuỗi sau khi in hoa là ");
-        System.out.println(chuyenDoi(str));
-        xoaNguyenAm(str);
-    }
+        Scanner scanner = new Scanner(System.in);
+        ManagerAnimal manager = new ManagerAnimal(10); // Khởi tạo danh sách với sức chứa ban đầu 10 động vật
 
-    public static void hienThi(String[] arr) {
-        for (int i = 0; i < arr.length; i++) {
-            System.out.print(" " + arr[i]);
-        }
-    }
+        while (true) {
+            System.out.println("\n===== MENU =====");
+            System.out.println("1. Nhập Lion");
+            System.out.println("2. Nhập Elephant");
+            System.out.println("3. Nhập Monkey");
+            System.out.println("4. Dừng nhập");
+            System.out.println("5. Hiển thị danh sách tất cả động vật");
+            System.out.println("6. Thêm động vật");
+            System.out.println("7. Tìm động vật theo tên");
+            System.out.println("8. Xóa động vật theo tên");
+            System.out.println("0. Thoát");
+            System.out.print("Lựa chọn của bạn: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Đọc dòng trống
 
+            switch (choice) {
+                case 1: // Nhập Lion
+                    System.out.print("Nhập tên Lion: ");
+                    String lionName = scanner.nextLine();
+                    System.out.print("Nhập tuổi Lion: ");
+                    int lionAge = scanner.nextInt();
+                    manager.addAnimal(new Lion(lionName, lionAge));
+                    break;
 
-    // kiểm tra số lần xuất hiện của 1 từ
-    public static void demSoLanXuatHienCuaTu (String str) {
-        int count = 0;
-        // tách chuỗi thành các phần tử bằng nhau bằng phương thức split() của lớp string
-        String[] parts = str.split(" ");
-        System.out.println(" Nhập từ cần so sánh ");
-        String tuCanSS = sc.nextLine();
-        for(String part : parts) {
-           // System.out.println(part);
-            if(part.equals(tuCanSS)) {
-                count++;
+                case 2: // Nhập Elephant
+                    System.out.print("Nhập tên Elephant: ");
+                    String elephantName = scanner.nextLine();
+                    System.out.print("Nhập tuổi Elephant: ");
+                    int elephantAge = scanner.nextInt();
+                    manager.addAnimal(new Elephant(elephantName, elephantAge));
+                    break;
+
+                case 3: // Nhập Monkey
+                    System.out.print("Nhập tên Monkey: ");
+                    String monkeyName = scanner.nextLine();
+                    System.out.print("Nhập tuổi Monkey: ");
+                    int monkeyAge = scanner.nextInt();
+                    manager.addAnimal(new Monkey(monkeyName, monkeyAge));
+                    break;
+
+                case 4: // Dừng nhập
+                    System.out.println("Dừng nhập!");
+                    break;
+
+                case 5: // Hiển thị danh sách
+                    manager.showAllAnimals();
+                    break;
+
+                case 6: // Thêm động vật mới
+                    System.out.print("Nhập tên động vật: ");
+                    String newName = scanner.nextLine();
+                    System.out.print("Nhập tuổi động vật: ");
+                    int newAge = scanner.nextInt();
+                    System.out.print("Nhập loại động vật (1: Lion, 2: Elephant, 3: Monkey): ");
+                    int type = scanner.nextInt();
+                    if (type == 1) {
+                        manager.addAnimal(new Lion(newName, newAge));
+                    } else if (type == 2) {
+                        manager.addAnimal(new Elephant(newName, newAge));
+                    } else if (type == 3) {
+                        manager.addAnimal(new Monkey(newName, newAge));
+                    } else {
+                        System.out.println("Loại động vật không hợp lệ!");
+                    }
+                    break;
+
+                case 7: // Tìm động vật theo tên
+                    System.out.print("Nhập tên động vật cần tìm: ");
+                    String searchName = scanner.nextLine();
+                    Animal foundAnimal = manager.findAnimal(searchName);
+                    if (foundAnimal != null) {
+                        foundAnimal.showInfo();
+                        foundAnimal.action();
+                    } else {
+                        System.out.println("Không tìm thấy động vật với tên: " + searchName);
+                    }
+                    break;
+
+                case 8: // Xóa động vật theo tên
+                    System.out.print("Nhập tên động vật cần xóa: ");
+                    String removeName = scanner.nextLine();
+                    manager.removeAnimal(removeName);
+                    break;
+
+                case 0: // Thoát
+                    System.out.println("Thoát chương trình.");
+                    scanner.close();
+                    return;
+
+                default:
+                    System.out.println("Lựa chọn không hợp lệ!");
             }
         }
-        System.out.println(tuCanSS+" xuất hiện "+count+ " lần ");
-    }
-
-
-
-    // chuyển đổi  chữ cái đầu tiên của mỗi từ thành in hoa
-    public static String chuyenDoi(String arr) {
-        // tách chuỗi thành các từ đơn
-        String[] parts = arr.split(" ");
-        for(int i = 0; i < parts.length; i++) {
-            String item = parts[i];
-            //trích chữ cái đầu của chuỗi item và viết hoa
-            String chuyen = item.substring(0,1).toUpperCase();
-            item=chuyen+item.substring(1).toLowerCase();
-            // add các từ vào chuỗi ms
-            sb.append(item).append(" ");
-        }
-        return sb.toString();
-
-    }
-
-    // xóa nguyên âm trong câu
-    public static void xoaNguyenAm(String str) {
-       String s1 = str.replaceAll("[aAeEiIoOuUyY]", "-");
-
-        System.out.println(" Chuỗi sau khi xóa nguyên âm là ");
-        System.out.println(s1);
     }
 }
